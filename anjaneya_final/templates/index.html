@@ -1,0 +1,54 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Flask</title>
+</head>
+<body>
+    <h1>Chat with Flask</h1>
+    <form id="chatForm">
+        <input type="text" id="userMessage" name="userMessage" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <div id="chatLog">      </div>
+
+    <script>
+        const form = document.getElementById('chatForm');
+        const chatLog = document.getElementById('chatLog');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userMessage = document.getElementById('userMessage').value;
+            appendMessage("YOU: "+userMessage);
+            try {
+                const response = await fetch("/get", {
+                    method: "POST",
+                    body: new URLSearchParams({ userMessage }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                });
+                const data = await response.text();
+                appendMessage(data);
+            } catch (error) {
+                console.error("Error:", error);
+            } 
+
+            setTimeout(function(){
+                appendMessage("CHATBOT: "+bot_response);
+
+            }, 1000);
+
+        });
+
+        function appendMessage(message) {
+            var chatContainer = document.getElementById("chatLog");
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+            chatLog.appendChild(messageElement);
+        }
+    </script>
+</body>
+</html>

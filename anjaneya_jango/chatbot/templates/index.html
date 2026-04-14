@@ -1,0 +1,67 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file -->
+</head>
+<body>
+    <style>/* styles.css */
+
+        /* Chat container */
+        .chat-container {
+            height: 400px; /* Adjust height as needed */
+            overflow-y: scroll; /* Enable vertical scrolling */
+        }
+        
+        /* Chat messages */
+        .user-message {
+            background-color: #DCF8C6; /* Light green for user messages */
+            padding: 8px;
+            margin: 8px;
+            border-radius: 8px;
+        }
+        
+        .bot-message {
+            background-color: #E0E0E0; /* Light gray for bot messages */
+            padding: 8px;
+            margin: 8px;
+            border-radius: 8px;
+        }
+        
+        /* Chat form */
+        .chat-form {
+            margin-top: 20px;
+        }
+        
+        .chat-form input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        
+        .chat-form button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        </style>
+    <div id="chat-container" class="chat-container">
+        <!-- Chat messages will be displayed here -->
+    </div>
+    <form id="chat-form" class="chat-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script src="chatbot.js"></script> <!-- Include your JavaScript file -->
+</body>
+</html>

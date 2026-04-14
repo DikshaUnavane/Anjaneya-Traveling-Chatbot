@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <style>
+        /* CSS styles can be added here */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #chat-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+        .user-message {
+            background-color: #f0f0f0;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+        .bot-message {
+            background-color: #e0e0e0;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chatbot Interface</h1>
+        <div id="chat-container">
+            <div id="chat-box"></div>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+            var chatBox = document.getElementById('chat-box');
+            
+            // Display user message in the chat box
+            chatBox.innerHTML += '<div class="user-message">' + userInput + '</div>';
+
+            // Clear the input field
+            document.getElementById('user-input').value = '';
+
+            // Send the user message to the server for processing
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display bot response in the chat box
+                chatBox.innerHTML += '<div class="bot-message">' + data.message + '</div>';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+    <script>
+        // Flask-specific code for handling CSRF token
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+        }
+        function sameOrigin(url) {
+            // test that a given url is a same-origin URL
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url === origin || url.slice(0, origin.length + 1) === origin + '/') ||
+                (url === sr_origin || url.slice(0, sr_origin.length + 1) === sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                !(/^(\/\/|http:|https:).*/.test(url));
+        }
+        function safeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        if (!csrfSafeMethod('GET') && !sameOrigin(url)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    </script>
+</body>
+</html>

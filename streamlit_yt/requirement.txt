@@ -1,0 +1,6 @@
+generativeai
+streamlit
+pandas
+numpy
+nltk
+requests

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchPage</title>
+ 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+<!-- Optional Bootstrap theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="searchpage">
+        <div class="btngroup">
+        <a href="start.html" id="btn1">Home</a>
+        <button type="button" id="btn2">History</button>
+        <a href="login.html" id="btn3">Log Out</a>
+        </div>
+    <div id = "chat-container">
+
+
+    </div>
+
+    <div class="right-container">
+        <form action="" id = "chat-form" method="get">
+        <input type="text" id = "user-input" class="search-box" placeholder=" Search">
+        <button type="submit" class="btns glyphicon glyphicon-search"></button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("chat-form").addEventListener("submit" , function(event){
+            event.preventDefault():
+
+            var userInput = document.getElementById("user-input").value;
+            appendMessage("YOU: "+userInput);
+
+            setTimeout(function(){
+                appendMessage("CHATBOT: "+userInput);
+
+            }, 1000);
+
+
+        });
+
+        function appendMessage(message){
+            var chatContainer = document.getElementById("chat-container");
+            var p = document.createElement("p");
+            p.textContent = message;
+            chatContainer.appendChild(p);
+        }
+    </script>  
+    
+</body>
+</html>
